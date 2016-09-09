@@ -26,9 +26,6 @@ class Ebill(object):
     def set_page_range(self, page_range):
         self.PAGE_RANGE = page_range
 
-    def set_page_range(self, page_range):
-        self.PAGE_RANGE = page_range
-
     def set_current_date(self, date):
         self._current_date = date
 
@@ -47,7 +44,7 @@ class Ebill(object):
 
         for data_element in siblings_generator:
             text_data = data_element.text.strip()
-            if Commons.ACCOUNT_DETAILS_PATTERN.match(text_data): # TODO: Bad do use  different method
+            if Commons.ACCOUNT_DETAILS_PATTERN.match(text_data):  # TODO: Bad do use  different method
                 matched_details = Commons.ACCOUNT_DETAILS_PATTERN.match(text_data).groups()
                 self.update_account_details(matched_details)
             if Commons.BEGIN_SMS_DATA_PATTERN.match(text_data):
@@ -56,13 +53,25 @@ class Ebill(object):
                 data = Commons.WITHIN_DATE_PATTERN.match(text_data).groups()
                 data = (self._current_date,) + data
                 data_dict = dict(zip(Commons.CALL_ENTRY_KEYS, data))
+                date_time_str = "{} {}".format(self._current_date.strftime('%b %d %y'), data_dict['TIME'])
+                date_time = datetime.strptime(date_time_str, '%b %d %y %H:%M:%S')
+                data_dict['TIMESTAMP'] = date_time
+                del data_dict['TIME']
+                del data_dict['DATE']
                 self.data[Commons.CALL][self._current_date.isoformat()].append(
                         data_dict)  # TODO: Check for _current_date before using
                 # print("Match in date")
             elif Commons.BEGIN_DATE_PATTERN.match(text_data):
                 data = Commons.BEGIN_DATE_PATTERN.match(text_data).groups()
                 data_dict = dict(zip(Commons.CALL_ENTRY_KEYS, data))
-                date = datetime.strptime(data_dict['DATE'], '%b %d %y')#.date()
+                date = datetime.strptime(data_dict['DATE'], '%b %d %y')  # .date()
+                date_time_str = "{} {}".format(data_dict['DATE'], data_dict[
+                    'TIME'])  # TODO: Remove redundant date and time attributes and move this to seperate methd
+                date_time = datetime.strptime(date_time_str, '%b %d %y %H:%M:%S')
+                data_dict['TIMESTAMP'] = date_time
+                del data_dict['TIME']
+                del data_dict['DATE']
+
                 # date = date.isoformat() # TODO: replace this with good solution rather than converting to string
                 # data_dict['DATE'] = date
                 # TODO: Combine date and time together and add new key as TIMESTAP removing bothe DATE and TIME keys
@@ -91,7 +100,6 @@ class Ebill(object):
     def update_account_details(self, matched_details):
         self.data[Commons.ACCOUNT_NUMBER] = matched_details[1]
         self.data[Commons.MOBILE_NUMBER] = matched_details[0]
-        self.data
 
     def generate_bill(self):
         for page_no in self.PAGE_RANGE:
