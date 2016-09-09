@@ -33,12 +33,9 @@ class Ebill_Dao(IEbill_Dao):
         self._collection = self._client[db][collection]
         self._template = {
             '_id': None,
-            Commons.MOBILE_NUMBER: {
-                'owner': '',
-                'type': 'Default',
-                'bills': {
-                }
-            }
+            'owner': '',
+            'type': 'Default',
+            'bills': []
         }
 
     def add_ebill(self, ebill):
@@ -51,11 +48,12 @@ class Ebill_Dao(IEbill_Dao):
         else:
             mobile = self.get_ebills(mobile_no)
         update = {
+            'month': bill_period,
             Commons.CALL: call_data
         }
         try:
             result = self._collection.update_one({'_id': mobile_no},
-                                                 {'$set': {'{}.bills.{}.call'.format(mobile_no, bill_period): update}})
+                                                 {'$push': {'bills': update}})
         except InvalidDocument as error:
             print(error)  # TODO: Do logging properly
         return result
@@ -65,6 +63,5 @@ class Ebill_Dao(IEbill_Dao):
 
     def add_new_mobile(self, mobile_number):
         self._template['_id'] = mobile_number
-        self._template[mobile_number] = self._template.pop(Commons.MOBILE_NUMBER)
         _id = self._collection.insert_one(self._template)
         return self.get_ebills(_id.inserted_id)
