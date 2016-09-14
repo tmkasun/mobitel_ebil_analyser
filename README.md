@@ -23,8 +23,8 @@ python data_extractor.py <path_to_ebill>.html
 
 # Disclaimer
 
-This application is only developed for informative purpose individuals, No passwords or username are even required to use this application, all the relevant e-bills are required to download by user. 
+This application is only developed for informative purpose of the individuals, No passwords nor username are required to use this application, all the relevant e-bills are required to download by user.
 
 ## Why Mobitel and who are they?
 
-Well it is a mobile service provider in srilanka and i'm using there service for call , sms and data. That's it!
+Well it is a mobile service provider in srilanka and i'm using their service for call , sms and data. That's it!
