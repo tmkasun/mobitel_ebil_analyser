@@ -46,7 +46,7 @@ class Ebill(object):
             text_data = data_element.text.strip()
             if Commons.ACCOUNT_DETAILS_PATTERN.match(text_data):  # TODO: Bad do use  different method
                 matched_details = Commons.ACCOUNT_DETAILS_PATTERN.match(text_data).groups()
-                self.update_account_details(matched_details)
+                self._update_account_details(matched_details)
             if Commons.BEGIN_SMS_DATA_PATTERN.match(text_data):
                 break  # TODO: Bad do use  different method
             if Commons.WITHIN_DATE_PATTERN.match(text_data):
@@ -97,7 +97,7 @@ class Ebill(object):
     def get_bill_period(self):
         return 'bill-period'
 
-    def update_account_details(self, matched_details):
+    def _update_account_details(self, matched_details):
         self.data[Commons.ACCOUNT_NUMBER] = matched_details[1]
         self.data[Commons.MOBILE_NUMBER] = matched_details[0]
 
@@ -108,12 +108,25 @@ class Ebill(object):
         self.set_total_payable()
         self.set_bill_period()
 
+    def get_call_records(self):
+        per_date_records = self.data[Commons.CALL].values()
+        all_calls = []
+        for per_date_records in per_date_records:
+            for record in per_date_records:
+                record[Commons.ACCOUNT_NUMBER] = self.data[Commons.ACCOUNT_NUMBER]
+                record[Commons.MOBILE_NUMBER] = self.data[Commons.MOBILE_NUMBER]
+                all_calls.append(record)
+        return all_calls
+        # return [record for date_record in per_date_records for record in
+        #         date_record]  # TODO: OPTIMIZE to return generator rather actual list
+
 
 def main():
     june_bill = Ebill('data/html/nh_ebill_preview_june.html')
     june_bill.generate_bill()
     ebill_dao = Ebill_Dao()
-    ebill_dao.add_ebill(june_bill)
+    results = ebill_dao.add_ebill(june_bill)
+    results
 
 
 if __name__ == '__main__':

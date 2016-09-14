@@ -31,37 +31,15 @@ class Ebill_Dao(IEbill_Dao):
     def __init__(self, db='knnect', collection='ebill'):
         self._client = MongoClient()
         self._collection = self._client[db][collection]
-        self._template = {
-            '_id': None,
-            'owner': '',
-            'type': 'Default',
-            'bills': []
-        }
 
     def add_ebill(self, ebill):
-        call_data = ebill.data[Commons.CALL]
-        mobile_no = ebill.data[Commons.MOBILE_NUMBER]
-        bill_period = ebill.get_bill_period()
-
-        if not self.get_ebills(mobile_no):
-            mobile = self.add_new_mobile(mobile_no)
-        else:
-            mobile = self.get_ebills(mobile_no)
-        update = {
-            'month': bill_period,
-            Commons.CALL: call_data
-        }
+        calls = ebill.get_call_records()
+        results = None
         try:
-            result = self._collection.update_one({'_id': mobile_no},
-                                                 {'$push': {'bills': update}})
+            results = self._collection.insert_many(calls)
         except InvalidDocument as error:
             print(error)  # TODO: Do logging properly
-        return result
+        return results
 
     def get_ebills(self, mobile_number):
-        return self._collection.find_one({'_id': mobile_number})
-
-    def add_new_mobile(self, mobile_number):
-        self._template['_id'] = mobile_number
-        _id = self._collection.insert_one(self._template)
-        return self.get_ebills(_id.inserted_id)
+        return self._collection.find({'mobile_no': mobile_number})
