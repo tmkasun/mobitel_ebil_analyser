@@ -1,2 +1,5 @@
 .idea/
 data/
+*.iml
+*.sqlite3
+*.pyc
