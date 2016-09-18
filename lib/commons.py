@@ -16,4 +16,4 @@ class Commons(object):
     BEGIN_SMS_DATA_PATTERN = re.compile("SMS Outgoing")
     ACCOUNT_DETAILS_PATTERN = re.compile("Call Charge Details for Mobile No : (\d+) of Account (\d+)")
 
-    CALL_ENTRY_KEYS = ['DATE', 'TIME', 'NUMBER', 'STATUS', 'UNITS', 'COST']
+    CALL_ENTRY_KEYS = ['date', 'time', 'number', 'status', 'units', 'cost']

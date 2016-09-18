@@ -53,24 +53,24 @@ class Ebill(object):
                 data = Commons.WITHIN_DATE_PATTERN.match(text_data).groups()
                 data = (self._current_date,) + data
                 data_dict = dict(zip(Commons.CALL_ENTRY_KEYS, data))
-                date_time_str = "{} {}".format(self._current_date.strftime('%b %d %y'), data_dict['TIME'])
+                date_time_str = "{} {}".format(self._current_date.strftime('%b %d %y'), data_dict['time'])
                 date_time = datetime.strptime(date_time_str, '%b %d %y %H:%M:%S')
-                data_dict['TIMESTAMP'] = date_time
-                del data_dict['TIME']
-                del data_dict['DATE']
+                data_dict['timestamp'] = date_time
+                del data_dict['time']
+                del data_dict['date']
                 self.data[Commons.CALL][self._current_date.isoformat()].append(
                         data_dict)  # TODO: Check for _current_date before using
                 # print("Match in date")
             elif Commons.BEGIN_DATE_PATTERN.match(text_data):
                 data = Commons.BEGIN_DATE_PATTERN.match(text_data).groups()
                 data_dict = dict(zip(Commons.CALL_ENTRY_KEYS, data))
-                date = datetime.strptime(data_dict['DATE'], '%b %d %y')  # .date()
-                date_time_str = "{} {}".format(data_dict['DATE'], data_dict[
-                    'TIME'])  # TODO: Remove redundant date and time attributes and move this to seperate methd
+                date = datetime.strptime(data_dict['date'], '%b %d %y')  # .date()
+                date_time_str = "{} {}".format(data_dict['date'], data_dict[
+                    'time'])  # TODO: Remove redundant date and time attributes and move this to seperate methd
                 date_time = datetime.strptime(date_time_str, '%b %d %y %H:%M:%S')
-                data_dict['TIMESTAMP'] = date_time
-                del data_dict['TIME']
-                del data_dict['DATE']
+                data_dict['timestamp'] = date_time
+                del data_dict['time']
+                del data_dict['date']
 
                 # date = date.isoformat() # TODO: replace this with good solution rather than converting to string
                 # data_dict['DATE'] = date
