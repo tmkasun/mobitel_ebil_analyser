@@ -1,4 +1,5 @@
 {% load static %}
+{% load ebill_dict %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,16 +42,16 @@
                                  *
                                  * Why not try some of the options above?
                                  */
-                                Morris.Area({
+                                Morris.Line({
                                     element: 'myfirstchart',
                                     data: [
-                                        { y: '2006', a: 100, b: 90 },
-                                        { y: '2007', a: 75,  b: 65 },
-                                        { y: '2008', a: 50,  b: 40 },
-                                        { y: '2009', a: 75,  b: 65 },
-                                        { y: '2010', a: 50,  b: 40 },
-                                        { y: '2011', a: 75,  b: 65 },
-                                        { y: '2012', a: 100, b: 90 }
+                                        {y: '2006', a: 100},
+                                        {y: '2007', a: 75},
+                                        {y: '2008', a: 50},
+                                        {y: '2009', a: 75},
+                                        {y: '2010', a: 50},
+                                        {y: '2011', a: 75},
+                                        {y: '2012', a: 100}
                                     ],
                                     xkey: 'y',
                                     ykeys: ['a', 'b'],
@@ -71,9 +72,25 @@
                         <div class="card-image">
                             <h5 class="center-align">Show stats</h5>
                         </div>
-                        <div class="card-content">
-                            <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
+                        <div class="card-content" style="max-height: 80%; overflow-y: scroll">
+                            <table class="highlight">
+                                <thead>
+                                <tr>
+                                    <th data-field="price">#</th>
+                                    <th data-field="_id">Mobile Number</th>
+                                    <th data-field="Frequency">Item Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for detail in frequencies %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ detail|get:"_id" }}</td>
+                                        <td>{{ detail|get:"count" }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                         <div class="card-action">
                             <a href="#">This is a link</a>
