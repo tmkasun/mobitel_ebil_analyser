@@ -47,48 +47,31 @@
                             <h5 class="center-align">Calls Distribution</h5>
                         </div>
                         <div class="card-content" style="max-height: 100%">
-                            <div id="myfirstchart" style="height: 100%;"></div>
-                            <script>
-                                /*
-                                 * Play with this code and it'll update in the panel opposite.
-                                 *
-                                 * Why not try some of the options above?
-                                 */
-                                Morris.Line({
-                                    element: 'myfirstchart',
-                                    data: [
-                                        {% for its in calls %}
-                                            {y: '{{ its|get:"_id"}}', a: {{ its|get:"count"}}},
-                                        {% endfor %}
-                                    ],
-                                    xkey: 'y',
-                                    ykeys: ['a'],
-                                    xLabels: "day",
-                                    axes: true,
-                                    labels: ['# Calls']
-                                });
-
-                            </script>
+                            <div id="call-distro-mini" style="height: 100%;"></div>
                         </div>
 
                         <div class="card-action">
-                            <a href="#modal1" data-target="modal1" class="modal-trigger"><i class="material-icons">fullscreen</i></a>
+                            <a href="#call-distro" data-target="call-distro" class="modal-trigger"><i
+                                    class="material-icons">fullscreen</i></a>
                             <!-- Modal Structure -->
-                            <div id="modal1" class="modal modal-fixed-footer">
+                            <div id="call-distro" class="modal modal-fixed-footer"
+                                 style="width: 90%;max-height: 80%;height: 80%;">
                                 <div class="modal-content">
-                                    <h4>Modal Header</h4>
-                                    <p>A bunch of text</p>
+                                    <h4>Monthly calls distribution</h4>
+                                    <div id="call-distro-full" style="height: 90%;"></div>
+                                    <script>
+                                        fullLineData = [
+                                            {% for its in calls %}
+                                                {y: '{{ its|get:"_id"}}', a: {{ its|get:"count"}}},
+                                            {% endfor %}
+                                        ];
+                                    </script>
                                 </div>
-                                <div class="modal-footer">
-                                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+                                <div class="modal-header right-align">
+                                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat "><i
+                                            class="material-icons">close</i></a>
                                 </div>
                             </div>
-                            <script>
-                                $(document).ready(function () {
-                                    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-                                    $('.modal-trigger').leanModal();
-                                });
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -120,23 +103,37 @@
                             </table>
                         </div>
                         <div class="card-action">
-                            <a href="#modal1" data-target="modal1" class="modal-trigger"><i class="material-icons">fullscreen</i></a>
+                            <a href="#call-freq-full" data-target="call-freq-full" class="modal-trigger"><i
+                                    class="material-icons">fullscreen</i></a>
                             <!-- Modal Structure -->
-                            <div id="modal1" class="modal modal-fixed-footer">
+                            <div id="call-freq-full" class="modal modal-fixed-footer"
+                                 style="width: 90%;max-height: 80%;height: 80%;">
                                 <div class="modal-content">
-                                    <h4>Modal Header</h4>
-                                    <p>A bunch of text</p>
+                                    <h4>Most frequent callees</h4>
+                                    <table class="highlight">
+                                        <thead>
+                                        <tr>
+                                            <th data-field="price">#</th>
+                                            <th data-field="_id">Mobile Number</th>
+                                            <th data-field="Frequency">Frequency</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for detail in frequencies %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ detail|get:"_id" }}</td>
+                                                <td>{{ detail|get:"count" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class="modal-footer">
-                                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+                                <div class="modal-header right-align">
+                                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat "><i
+                                            class="material-icons">close</i></a>
                                 </div>
                             </div>
-                            <script>
-                                $(document).ready(function () {
-                                    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-                                    $('.modal-trigger').leanModal();
-                                });
-                            </script>
                         </div>
                     </div>
                 </div>
