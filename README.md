@@ -14,6 +14,7 @@ The basic structure of the application is
 * Implement front end visualizer application using Django to visualize the data
 * Include calls basic statistical data such as most called number, most costliest call during that month, most called network ect.
 * Add either one of the following material design libraries [material-ui](https://github.com/callemall/material-ui) > [materialize](https://github.com/Dogfalo/materialize) > [BS-material-design](https://github.com/FezVrasta/bootstrap-material-design) > [django-material](https://github.com/viewflow/django-material)
+* AWS deployment [mod_wsgi](http://masteringdjango.com/deploying-django/) or [mod_python](https://www.ibm.com/developerworks/library/os-django/)
 
 # Basic Usage
 
