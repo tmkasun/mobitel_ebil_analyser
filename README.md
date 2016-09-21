@@ -13,7 +13,7 @@ The basic structure of the application is
 
 * Implement front end visualizer application using Django to visualize the data
 * Include calls basic statistical data such as most called number, most costliest call during that month, most called network ect.
-* Add either one of the following material design libraries [material-ui](https://github.com/callemall/material-ui) > [materialize](https://github.com/Dogfalo/materialize) > [BS-material-design](https://github.com/FezVrasta/bootstrap-material-design) > [django-material](https://github.com/viewflow/django-material)
+* Add either one of the following material design libraries ~~[material-ui](https://github.com/callemall/material-ui)~~ > [materialize](https://github.com/Dogfalo/materialize) > ~~[BS-material-design](https://github.com/FezVrasta/bootstrap-material-design)~~ > ~~[django-material](https://github.com/viewflow/django-material)~~
 
 # Basic Usage
 
