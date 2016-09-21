@@ -7,7 +7,7 @@ The basic structure of the application is
 * Arrange the data as per date calls data
 * Insert them in to prefered DB through data access objects, I have implemented DAO for mongoDB, you may implement your preferred DAO using provided abstract class definition
 
-![home](https://cloud.githubusercontent.com/assets/3313885/18658170/f936a140-7f1d-11e6-9e84-73aec087ae06.png)
+![home](https://cloud.githubusercontent.com/assets/3313885/18698188/b1a664a0-7fe5-11e6-82e7-c3355d7a9401.png)
 
 # TODO:
 
